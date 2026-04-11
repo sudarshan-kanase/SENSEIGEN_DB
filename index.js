@@ -18,6 +18,17 @@ app.post("/register", async (req, res) => {
   } = req.body;
 
   try {
+    // 🔥 check duplicate email
+    const checkUser = await pool.query(
+      "SELECT * FROM users WHERE email=$1",
+      [email]
+    );
+
+    if (checkUser.rows.length > 0) {
+      return res.json({ success: false, message: "Email already registered ❌" });
+    }
+
+    // 🔥 insert user
     await pool.query(
       `INSERT INTO users 
       (role, first_name, last_name, email, mobile, dob, gender, state, district, pin, college, purpose, qualification, profession, experience, password)
@@ -34,7 +45,7 @@ app.post("/register", async (req, res) => {
 
   } catch (err) {
     console.log(err);
-    res.json({ success: false, message: "Email already exists" });
+    res.json({ success: false, message: "Server error ❌" });
   }
 });
 
@@ -45,15 +56,21 @@ app.post("/login", async (req, res) => {
 
   try {
     const result = await pool.query(
-      "SELECT * FROM users WHERE email=$1 AND password=$2",
-      [email, password]
+      "SELECT * FROM users WHERE email=$1",
+      [email]
     );
 
-    if (result.rows.length > 0) {
-      res.json({ success: true, user: result.rows[0] });
-    } else {
-      res.json({ success: false });
+    if (result.rows.length === 0) {
+      return res.json({ success: false, message: "User not found ❌" });
     }
+
+    const user = result.rows[0];
+
+    if (user.password !== password) {
+      return res.json({ success: false, message: "Wrong password ❌" });
+    }
+
+    res.json({ success: true, user });
 
   } catch (err) {
     console.log(err);
@@ -62,7 +79,7 @@ app.post("/login", async (req, res) => {
 });
 
 
-// 🚀 TEST API (optional)
+// 🚀 TEST
 app.get("/", (req, res) => {
   res.send("Backend Running ✅");
 });
