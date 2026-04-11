@@ -1,12 +1,11 @@
 const express = require("express");
-const { Pool } = require("pg");
 const cors = require("cors");
+const pool = require("./db");
 
 const app = express();
+
 app.use(cors());
 app.use(express.json());
-
-
 
 
 // 🚀 REGISTER API
@@ -57,8 +56,15 @@ app.post("/login", async (req, res) => {
     }
 
   } catch (err) {
+    console.log(err);
     res.json({ success: false });
   }
+});
+
+
+// 🚀 TEST API (optional)
+app.get("/", (req, res) => {
+  res.send("Backend Running ✅");
 });
 
 
