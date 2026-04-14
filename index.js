@@ -8,7 +8,7 @@ app.use(cors());
 app.use(express.json());
 
 
-// 🚀 REGISTER API
+// REGISTER API
 app.post("/register", async (req, res) => {
   const {
     role, firstName, lastName, email, mobile,
@@ -18,7 +18,7 @@ app.post("/register", async (req, res) => {
   } = req.body;
 
   try {
-    // 🔥 check duplicate email
+    //  check duplicate email
     const checkUser = await pool.query(
       "SELECT * FROM users WHERE email=$1",
       [email]
@@ -28,7 +28,7 @@ app.post("/register", async (req, res) => {
       return res.json({ success: false, message: "Email already registered ❌" });
     }
 
-    // 🔥 insert user
+    //  insert user
     await pool.query(
       `INSERT INTO users 
       (role, first_name, last_name, email, mobile, dob, gender, state, district, pin, college, purpose, qualification, profession, experience, password)
@@ -50,7 +50,7 @@ app.post("/register", async (req, res) => {
 });
 
 
-// 🚀 LOGIN API
+// LOGIN API
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
@@ -79,13 +79,13 @@ app.post("/login", async (req, res) => {
 });
 
 
-// 🚀 TEST
+//  TEST
 app.get("/", (req, res) => {
   res.send("Backend Running ✅");
 });
 
 
-// 🚀 SERVER
+// SERVER
 app.listen(5000, () => {
   console.log("Server running on port 5000");
 });
