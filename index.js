@@ -83,7 +83,7 @@ app.post("/contact", async (req, res) => {
 
   //  validation
   if (!name || !email || !message) {
-    return res.json({ success: false, message: "All fields required ❗" });
+    return res.json({ success: false, message: "All fields required" });
   }
 
   try {
@@ -93,11 +93,11 @@ app.post("/contact", async (req, res) => {
       [name, email, message]
     );
 
-    res.json({ success: true, message: "Message sent successfully ✅" });
+    res.json({ success: true, message: "Message sent successfully " });
 
   } catch (err) {
     console.log(err);
-    res.json({ success: false, message: "Server error ❌" });
+    res.json({ success: false, message: "Server error " });
   }
 });
 
