@@ -25,7 +25,7 @@ app.post("/register", async (req, res) => {
     );
 
     if (checkUser.rows.length > 0) {
-      return res.json({ success: false, message: "Email already registered ❌" });
+      return res.json({ success: false, message: "Email already registered " });
     }
 
     //  insert user
@@ -45,7 +45,7 @@ app.post("/register", async (req, res) => {
 
   } catch (err) {
     console.log(err);
-    res.json({ success: false, message: "Server error ❌" });
+    res.json({ success: false, message: "Server error " });
   }
 });
 
@@ -61,13 +61,13 @@ app.post("/login", async (req, res) => {
     );
 
     if (result.rows.length === 0) {
-      return res.json({ success: false, message: "User not found ❌" });
+      return res.json({ success: false, message: "User not found " });
     }
 
     const user = result.rows[0];
 
     if (user.password !== password) {
-      return res.json({ success: false, message: "Wrong password ❌" });
+      return res.json({ success: false, message: "Wrong password " });
     }
 
     res.json({ success: true, user });
@@ -81,7 +81,7 @@ app.post("/login", async (req, res) => {
 
 //  TEST
 app.get("/", (req, res) => {
-  res.send("Backend Running ✅");
+  res.send("Backend Running ");
 });
 
 
